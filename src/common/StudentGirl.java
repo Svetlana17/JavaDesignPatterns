@@ -51,6 +51,16 @@ public class StudentGirl implements Pupil {
         return registers.length;
     }
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        StudentGirl clone = (StudentGirl) super.clone();
+        clone.registers = Arrays.copyOf(registers, registers.length);
+        for (int i = 0; i < registers.length; i++) {
+            clone.registers[i] = new Register(registers[i].subjectName, registers[i].mark);
+        }
+        return clone;
+    }
+
     private static class Register {
         private String subjectName;
         private int mark;

@@ -1,6 +1,6 @@
 package common;
 
-public interface Pupil {
+public interface Pupil extends Cloneable {
     String getSecondName();
 
     String getSubjectAt(int index);
@@ -14,4 +14,6 @@ public interface Pupil {
     void addSubjectAndMark(String subjectName, int subjectMark);
 
     int getSubjectsCount();
+
+    Object clone() throws CloneNotSupportedException;
 }

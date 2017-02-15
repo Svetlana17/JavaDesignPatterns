@@ -51,4 +51,12 @@ public class Student implements Pupil {
     public int getSubjectsCount() {
         return subjects.length;
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Student clone = (Student) super.clone();
+        clone.subjects = Arrays.copyOf(subjects, subjects.length);
+        clone.marks = Arrays.copyOf(marks, marks.length);
+        return clone;
+    }
 }
