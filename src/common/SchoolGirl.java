@@ -2,12 +2,12 @@ package common;
 
 import java.util.Arrays;
 
-public class StudentGirl implements Pupil {
+public class SchoolGirl implements Pupil {
 
     private final String secondName;
     private Register[] registers;
 
-    public StudentGirl(String secondName, int initialCountOfSubjects) {
+    public SchoolGirl(String secondName, int initialCountOfSubjects) {
         this.secondName = secondName;
         this.registers = new Register[initialCountOfSubjects];
         for (int i = 0; i < registers.length; i++) {
@@ -53,7 +53,7 @@ public class StudentGirl implements Pupil {
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        StudentGirl clone = (StudentGirl) super.clone();
+        SchoolGirl clone = (SchoolGirl) super.clone();
         clone.registers = Arrays.copyOf(registers, registers.length);
         for (int i = 0; i < registers.length; i++) {
             clone.registers[i] = new Register(registers[i].subjectName, registers[i].mark);

@@ -13,8 +13,8 @@ public class Runner {
         System.out.println("Default factory");
         createAndPrintPupil();
 
-        System.out.println("StudentGirlFactory");
-        Pupils.setPupilFactory(new StudentGirlFactory());
+        System.out.println("SchoolGirlFactory");
+        Pupils.setPupilFactory(new SchoolGirlFactory());
         createAndPrintPupil();
 
         System.out.println("StudentFactory");

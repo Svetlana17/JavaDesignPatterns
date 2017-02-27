@@ -2,7 +2,7 @@ package prototype;
 
 import common.Pupil;
 import common.Pupils;
-import factory_method.StudentGirlFactory;
+import factory_method.SchoolGirlFactory;
 
 public class Runner {
 
@@ -13,7 +13,7 @@ public class Runner {
         Pupils.fillPupilMarks(student);
         test(student, prototype);
 
-        Pupils.setPupilFactory(new StudentGirlFactory());
+        Pupils.setPupilFactory(new SchoolGirlFactory());
         Pupil studentGirl = Pupils.createInstance(Pupils.randomStudentName(), 5);
         Pupils.fillPupilMarks(studentGirl);
         test(studentGirl, prototype);
