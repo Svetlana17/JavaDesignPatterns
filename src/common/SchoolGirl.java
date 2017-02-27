@@ -1,8 +1,9 @@
 package common;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
-public class SchoolGirl implements Pupil {
+public class SchoolGirl implements Pupil, Iterable<SchoolGirl.Register> {
 
     private final String secondName;
     private Register[] registers;
@@ -61,16 +62,40 @@ public class SchoolGirl implements Pupil {
         return clone;
     }
 
-    private static class Register {
+    @Override
+    public Iterator<Register> iterator() {
+        return new SchoolGirlIterator();
+    }
+
+    private class SchoolGirlIterator implements Iterator<Register> {
+        private int cursor;
+
+        @Override
+        public boolean hasNext() {
+            return cursor < getSubjectsCount();
+        }
+
+        @Override
+        public Register next() {
+            return registers[cursor++];
+        }
+    }
+
+    static class Register {
         private String subjectName;
         private int mark;
 
-        public Register() {
+        Register() {
         }
 
-        public Register(String subjectName, int mark) {
+        Register(String subjectName, int mark) {
             this.subjectName = subjectName;
             this.mark = mark;
+        }
+
+        @Override
+        public String toString() {
+            return subjectName + ": " + mark;
         }
     }
 }
