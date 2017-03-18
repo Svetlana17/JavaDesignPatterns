@@ -1,5 +1,6 @@
 package common;
 
+import decorator.PupilSynchronized;
 import factory_method.PupilFactory;
 import factory_method.StudentFactory;
 
@@ -36,6 +37,10 @@ public class Pupils {
 
     public static Pupil createInstance(String secondName, int subjectsCount) {
         return pupilFactory.createInstance(secondName, subjectsCount);
+    }
+
+    public static Pupil createSynchronizedInstance(Pupil pupil) {
+        return new PupilSynchronized(pupil);
     }
 
     public static String randomStudentName() {

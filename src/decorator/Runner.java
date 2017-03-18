@@ -8,8 +8,7 @@ import java.io.IOException;
 public class Runner {
 
     public static void main(String[] args) throws IOException {
-        Pupils.setPupilFactory(new PupilSynchronizedFactory());
-        Pupil pupil = Pupils.createInstance(Pupils.randomStudentName(), 10);
+        Pupil pupil = Pupils.createSynchronizedInstance(Pupils.createInstance(Pupils.randomStudentName(), 10));
         Pupils.fillPupilMarks(pupil);
         Pupils.print(pupil);
     }

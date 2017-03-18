@@ -8,10 +8,12 @@ import javax.swing.*;
 
 public class FaceComponent extends JPanel {
 
+    private final static int WINDOW_SIZE = 500;
+
     private final Face face;
 
     private FaceComponent() {
-        face = new Face(800, 800);
+        face = new Face(WINDOW_SIZE, WINDOW_SIZE);
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -43,7 +45,7 @@ public class FaceComponent extends JPanel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(800, 800);
+        return new Dimension(WINDOW_SIZE, WINDOW_SIZE);
     }
 
     private static void createAndShowGUI() {

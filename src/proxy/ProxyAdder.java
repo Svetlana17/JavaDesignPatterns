@@ -11,7 +11,7 @@ class ProxyAdder {
     }
 
     static int getSum(int a, int b) throws IOException {
-        try (Socket sender = new Socket(InetAddress.getLocalHost(), Server.PORT)) {
+        try (Socket sender = new Socket(InetAddress.getLocalHost(), 5000)) {
             PrintWriter out = new PrintWriter(sender.getOutputStream());
             out.println(a);
             out.println(b);
