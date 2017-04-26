@@ -1,9 +1,9 @@
-package mvc.controller;
+package mvc.view;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.value.ObservableValueBase;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
@@ -22,49 +22,48 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
-import mvc.model.Point;
-import mvc.model.PointsHolder;
+import mvc.controller.Controller;
+import mvc.model.Data;
 
-public class TabulatedLineChartWithLegend extends Application {
-    private TableView<Point> table;
-    private LineChart lineChart;
+import java.util.function.Function;
+
+public class ChartApplication extends Application {
+
+    private TableView<Data> table;
+    private LineChart<Number, Number> lineChart;
+
+    private static final Function<Double, Double> FUNCTION = x -> x * x;
 
     @Override
     public void start(Stage stage) {
-        stage.setTitle("Line Chart With Attached Tabulated Data");
+        stage.setTitle("MVC demonstration");
 
         final NumberAxis xAxis = new NumberAxis();
         xAxis.setTickLength(0);
         final NumberAxis yAxis = new NumberAxis();
 
         table = createTableView();
-        table.setItems(FXCollections.observableList(PointsHolder.getInstance().getPoints()));
+        table.setItems(Controller.getInstance().getObservableData());
 
         lineChart = new LineChart<>(xAxis, yAxis);
         lineChart.setStyle("-fx-padding: 0;");
         lineChart.setLegendVisible(false);
-        lineChart.setTitle("Stock Monitoring, 2010");
         updateSeries();
 
         HBox hb = new HBox();
-        final TextField addXName = new TextField();
+        TextField addXName = new TextField();
         addXName.setPromptText("Parameter");
-        addXName.prefWidthProperty().bind(table.widthProperty().divide(3));
-        final TextField addYName = new TextField();
-        addYName.prefWidthProperty().bind(table.widthProperty().divide(3));
-        addYName.setPromptText("Value");
+        addXName.prefWidthProperty().bind(table.widthProperty().divide(2));
 
-        final Button addButton = new Button("Add");
+        Button addButton = new Button("Add");
         addButton.setOnAction(e -> {
-            table.getItems().add(new Point(
-                    Double.parseDouble(addXName.getText()),
-                    Double.parseDouble(addYName.getText())));
+            table.getItems().add(new Data(Double.parseDouble(addXName.getText())));
             addXName.clear();
-            addYName.clear();
             updateSeries();
         });
-        addButton.prefWidthProperty().bind(table.widthProperty().divide(3));
-        hb.getChildren().addAll(addXName, addYName, addButton);
+
+        addButton.prefWidthProperty().bind(table.widthProperty().divide(2));
+        hb.getChildren().addAll(addXName, addButton);
         hb.setSpacing(5);
 
         VBox vbox = new VBox(5);
@@ -81,40 +80,42 @@ public class TabulatedLineChartWithLegend extends Application {
         stage.show();
     }
 
-    private Series<Number, Number> createSeries(ObservableList<Point> data) {
+    private Series<Number, Number> createSeries(ObservableList<Data> data) {
         XYChart.Series<Number, Number> series = new XYChart.Series<>();
-        for (Point point : data) {
-            series.getData().add(new XYChart.Data<>(point.getX(), point.getY()));
+        for (Data point : data) {
+            series.getData().add(new XYChart.Data<>(point.getX(), FUNCTION.apply(point.getX())));
         }
         return series;
     }
 
-    private TableView<Point> createTableView() {
-        TableView<Point> table = new TableView<>();
+    private TableView<Data> createTableView() {
+        TableView<Data> table = new TableView<>();
         table.setEditable(true);
 
-        TableColumn parametersColumn = new TableColumn("Parameter");
+        TableColumn<Data, Number> parametersColumn = new TableColumn<>("Parameter");
         parametersColumn.prefWidthProperty().bind(table.widthProperty().divide(2));
         parametersColumn.setCellFactory(TextFieldTableCell.forTableColumn(new NumberStringConverter()));
         parametersColumn.setCellValueFactory(new PropertyValueFactory<>("x"));
-        parametersColumn.setOnEditCancel(new EventHandler<TableColumn.CellEditEvent>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent event) {
-                System.err.println("edit canceled");
-            }
-        });
-        parametersColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Point, Number>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Point, Number> event) {
-                int rowId = event.getTablePosition().getRow();
-                table.getItems().get(rowId).setX(event.getNewValue());
-                updateSeries();
-            }
+        parametersColumn.setOnEditCancel(event -> System.err.println("edit canceled"));
+        parametersColumn.setOnEditCommit(event -> {
+            int rowId = event.getTablePosition().getRow();
+            table.getItems().get(rowId).setX(event.getNewValue().doubleValue());
+            updateSeries();
         });
 
-        TableColumn valuesColumn = new TableColumn<>("Value");
+        TableColumn<Data, Double> valuesColumn = new TableColumn<>("Value");
         valuesColumn.prefWidthProperty().bind(table.widthProperty().divide(2));
-        valuesColumn.setCellValueFactory(new PropertyValueFactory<>("y"));
+        valuesColumn.setCellValueFactory(new PropertyValueFactory<Data, Double>("x") {
+            @Override
+            public ObservableValue<Double> call(TableColumn.CellDataFeatures<Data, Double> param) {
+                return new ObservableValueBase<Double>() {
+                    @Override
+                    public Double getValue() {
+                        return FUNCTION.apply(param.getValue().getX());
+                    }
+                };
+            }
+        });
 
         table.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.DELETE) {
