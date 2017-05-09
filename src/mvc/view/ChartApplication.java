@@ -32,24 +32,24 @@ public class ChartApplication extends Application {
     private TableView<Data> table;
     private LineChart<Number, Number> lineChart;
 
-    private static final Function<Double, Double> FUNCTION = x -> x * x;
+    private static final Function<Double, Double> FUNCTION = x -> x * x * Math.cos(x) - x;
 
     @Override
     public void start(Stage stage) {
         stage.setTitle("MVC demonstration");
 
-        final NumberAxis xAxis = new NumberAxis();
-        xAxis.setTickLength(0);
-        final NumberAxis yAxis = new NumberAxis();
-
         table = createTableView();
         table.setItems(Controller.getInstance().getObservableData());
 
-        lineChart = new LineChart<>(xAxis, yAxis);
-        lineChart.setStyle("-fx-padding: 0;");
-        lineChart.setLegendVisible(false);
+        lineChart = createLineChart();
+
         updateSeries();
 
+        initStage(stage);
+        stage.show();
+    }
+
+    private void initStage(Stage stage) {
         HBox hb = new HBox();
         TextField addXName = new TextField();
         addXName.setPromptText("Parameter");
@@ -77,7 +77,18 @@ public class ChartApplication extends Application {
 
         Scene scene = new Scene(layout, 700, 500);
         stage.setScene(scene);
-        stage.show();
+    }
+
+    private LineChart<Number, Number> createLineChart() {
+        NumberAxis xAxis = new NumberAxis();
+        xAxis.setTickLength(0);
+        NumberAxis yAxis = new NumberAxis();
+
+        lineChart = new LineChart<>(xAxis, yAxis);
+        lineChart.setStyle("-fx-padding: 0;");
+        lineChart.setLegendVisible(false);
+
+        return lineChart;
     }
 
     private Series<Number, Number> createSeries(ObservableList<Data> data) {
