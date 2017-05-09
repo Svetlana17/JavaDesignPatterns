@@ -1,6 +1,8 @@
 package common;
 
-public interface Pupil extends Cloneable {
+import java.io.Serializable;
+
+public interface Pupil extends Cloneable, Serializable {
     String getSecondName();
 
     String getSubjectAt(int index);

@@ -59,4 +59,25 @@ public class Student implements Pupil {
         clone.marks = Arrays.copyOf(marks, marks.length);
         return clone;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Student student = (Student) o;
+
+        if (secondName != null ? !secondName.equals(student.secondName) : student.secondName != null) return false;
+        if (!Arrays.equals(marks, student.marks)) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(subjects, student.subjects);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = secondName != null ? secondName.hashCode() : 0;
+        result = 31 * result + Arrays.hashCode(marks);
+        result = 31 * result + Arrays.hashCode(subjects);
+        return result;
+    }
 }

@@ -22,20 +22,20 @@ public class Runner {
     private static void test(Pupil instance, Prototype prototype) throws CloneNotSupportedException {
         System.out.println("Initial instance:");
         System.out.println(instance);
-        Pupils.print(instance);
+        Pupils.log(instance);
 
         prototype.setPrototype(instance);
         Pupil clonedInstance = prototype.createInstance();
         System.out.println("Cloned instance:");
         System.out.println(instance);
-        Pupils.print(clonedInstance);
+        Pupils.log(clonedInstance);
 
         instance.setSubjectAt(0, "Removed Subject");
         instance.setMarkAt(0, -1);
         System.out.println("Initial instance after change:");
-        Pupils.print(instance);
+        Pupils.log(instance);
 
         System.out.println("Cloned instance after change:");
-        Pupils.print(clonedInstance);
+        Pupils.log(clonedInstance);
     }
 }

@@ -1,0 +1,72 @@
+Sokolova
+10
+Physics 5
+Algebra 5
+Geometry 4
+Algebra 4
+Algebra 4
+Algebra 5
+Biology 2
+Biology 4
+Physics 3
+Algebra 5
+Vasechkin
+10
+Physics 3
+Philosophy 4
+Biology 4
+Physics 2
+Physics 5
+Literature 2
+Chemistry 3
+Physics 5
+Geometry 5
+Geometry 5
+Ivanov
+10
+Biology 4
+Biology 4
+Physics 5
+Algebra 4
+Algebra 3
+Geometry 4
+Algebra 3
+Philosophy 5
+Literature 2
+Literature 3
+Sidorov
+10
+Literature 5
+Biology 2
+Geometry 2
+Biology 5
+Literature 4
+Chemistry 3
+Physics 5
+Biology 2
+Chemistry 5
+Literature 4
+Kraynova
+10
+Chemistry 2
+Physics 4
+Literature 4
+Philosophy 2
+Geometry 2
+Physics 3
+Geometry 5
+Literature 5
+Literature 2
+Philosophy 5
+Kraynova
+10
+Chemistry 3
+Philosophy 3
+Philosophy 5
+Physics 3
+Biology 4
+Algebra 4
+Physics 5
+Physics 3
+Geometry 2
+Literature 5

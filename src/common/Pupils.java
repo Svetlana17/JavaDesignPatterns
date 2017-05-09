@@ -4,6 +4,7 @@ import decorator.PupilSynchronized;
 import factory_method.PupilFactory;
 import factory_method.StudentFactory;
 
+import java.io.Writer;
 import java.util.Random;
 
 public class Pupils {
@@ -16,11 +17,18 @@ public class Pupils {
     private static String[] subjectNames = {"Physics", "Algebra", "Geometry", "Philosophy", "Chemistry", "Biology", "Literature"};
     private static Random random = new Random();
 
-    public static void print(Pupil pupil) {
-        System.out.println("Student: " + pupil.getSecondName());
+    public static void log(Pupil pupil) {
+        System.out.println(pupilToString(pupil));
+    }
+
+    public static String pupilToString(Pupil pupil) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(pupil.getSecondName()).append('\n');
+        stringBuilder.append(pupil.getSubjectsCount()).append('\n');
         for (int i = 0; i < pupil.getSubjectsCount(); i++) {
-            System.out.printf("    %s : %s\n", pupil.getSubjectAt(i), pupil.getMarkAt(i));
+            stringBuilder.append(String.format("%s %s\n", pupil.getSubjectAt(i), pupil.getMarkAt(i)));
         }
+        return stringBuilder.toString();
     }
 
     public static double calculateAverageMark(Pupil pupil) {
@@ -64,6 +72,5 @@ public class Pupils {
             pupil.setSubjectAt(i, Pupils.randomSubjectName());
             pupil.setMarkAt(i, Pupils.randomMark());
         }
-        pupil.addSubjectAndMark(Pupils.randomSubjectName(), Pupils.randomMark());
     }
 }
