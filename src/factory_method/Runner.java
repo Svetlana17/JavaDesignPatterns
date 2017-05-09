@@ -26,7 +26,7 @@ public class Runner {
         Pupil pupil = Pupils.createInstance(Pupils.randomStudentName(), 5);
         Pupils.fillPupilMarks(pupil);
         System.out.println("Pupil: " + pupil);
-        Pupils.print(pupil);
+        Pupils.log(pupil);
         System.out.printf("Average mark = %.2f\n\n", Pupils.calculateAverageMark(pupil));
     }
 }
