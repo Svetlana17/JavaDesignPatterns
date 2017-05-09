@@ -4,7 +4,11 @@ import common.Pupil;
 import common.Pupils;
 import dao.dao.DaoSpecificException;
 import dao.dao.ObjectPupilsDao;
+import dao.dao.PupilsDao;
 import dao.dao.TextPupilsDao;
+import dao.dao.factory.ObjectPupilsDaoFactory;
+import dao.dao.factory.PupilsDaoFactory;
+import dao.dao.factory.TextPupilsDaoFactory;
 import dao.sources.ObjectDataSource;
 
 import java.io.IOException;
@@ -15,9 +19,20 @@ public class Runner {
 
     private static final int PUPILS_COUNT = 6;
 
+    private static final PupilsDaoFactory FACTORY = new ObjectPupilsDaoFactory();
+
     public static void main(String[] args) throws IOException {
         //fillFilesInitially();
-
+        PupilsDao dao = FACTORY.createPupilsDao();
+        try {
+            List<Pupil> pupils = dao.readPupils();
+            System.out.println("Data read");
+            for (Pupil pupil : pupils) {
+                System.out.println(Pupils.pupilToString(pupil));
+            }
+        } catch (DaoSpecificException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void fillFilesInitially() {
